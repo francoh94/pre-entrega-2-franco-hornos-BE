@@ -1,0 +1,1 @@
+{"type":"module","name":"pre-entrega-2-franco-hornos","version":"1.0.0","description":"","main":"index.js","scripts":{"start":"nodemon src/app.js"},"keywords":[],"author":"","license":"ISC","dependencies":{"db":"^4.0.1","express":"^4.18.2","handlebars":"^4.7.8","mongo":"^0.1.0","mongodb":"^5.8.1","mongoose":"^7.4.5","mongoose-paginate-v2":"^1.7.31","socket.io":"^4.7.2"}}
