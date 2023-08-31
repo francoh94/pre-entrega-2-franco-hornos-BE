@@ -13,8 +13,8 @@ import { productsModels } from "./models/products.model.js";
                 totalPages: products.totalPages,
                 prevPages: page > 1 ? page - 1 : null,
                 nextPages: page < products.totalPages ? page + 1 : null,
-                prevLink: page > 1 ? `http://localhost:8080/api/products?page=${page-1} `:null,
-                nextLink: page < products.totalPages ? `http://localhost:8080/api/products?page=${page+1}` : null,
+                prevLink: page > 1 ? `http://localhost:8080/api/products?page=${+page-1} `:null,
+                nextLink: page < products.totalPages ? `http://localhost:8080/api/products?page=${+page+1}` : null,
                 hasPrevPages: true ?page > 1:false,
                 hasNextPages: true ?page < products.totalPages:false
 
