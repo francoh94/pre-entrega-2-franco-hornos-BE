@@ -1,23 +1,24 @@
 import { cartsModels } from "./models/carts.model.js";
+import mongoose from "mongoose";
 
 
 class CartsMongo {
 
     async getCarts(){
-        try{
-        const carts = await cartsModels.find({})
-        return carts
-        }
-        catch(error){
-            return error
-        }
-    }
+        try {
+            const carts = await cartsModels.find({});
+            return {carts};
+        } catch(error) {
+            console.log(error);
+            return { error: 'Error retrieving carts' };
+        }}
     async findById(id){
         try{
-        const cart = await cartsModels.findById(id).populate('products.product');
-        return cart
+            const cart = await cartsModels.findById(id).populate('products');
+            return cart
         }
         catch(error){
+            console.log(error);
             return error
         }
     }
@@ -30,9 +31,25 @@ class CartsMongo {
             return error
         }
     }
+    async addCart(cid, pid) {
+        try {
+            const cart = await this.findById(cid);
+const product = {
+                id: pid,
+                quantity: 1, };
+cart.Products.push(product);
+
+            
+            await cart.save();
+
+            return cart;
+        } catch (error) {
+            return error;
+        }
+    }
     async updateOne (id,obj){
         try{
-        const cart = await cartsModels.findOneAndReplace({_id:id},{...obj})
+        const cart = await cartsModels.findOneAndReplace({_id:id},obj)
         return cart
         }
         catch(error){
@@ -41,7 +58,8 @@ class CartsMongo {
     }
     async updateQuantity (cid,pid,obj){
         try{
-        const cart = await cartsModels.updateOne({_id:cid,_id:pid},{...obj})
+        const cart = await cartsModels.updateOne({ _id: cid, "products._id": pid },
+        { $set: { "products.$.quantity": obj } })
         return cart
         }
         catch(error){

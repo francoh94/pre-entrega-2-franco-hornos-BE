@@ -16,7 +16,7 @@ router.get("/", async () => {
 router.get("/:cid", async (req, res) => {
     const { cid } = req.params;
     try {
-      if(!product){
+      if(!cart){
         res.status(400).json({message:'id invalido'})
         }else{
       const cart = await cartsMongo.findById(+cid)
@@ -39,9 +39,9 @@ router.get("/:cid", async (req, res) => {
   router.post('/:cid/products/:pid',async(req,res )=>{
     const {cid, pid} = req.params
     try{
-    const addProduct = await cartsMongo.addCart(+cid, +pid)
-    res.status(200).json({message: 'producto agregado', cart:addProduct})
-  }
+      const addProduct = await cartsMongo.addCart(mongoose.Types.ObjectId(cid), mongoose.Types.ObjectId(pid));
+      res.status(200).json({message: 'producto agregado', cart:addProduct})
+ }
   catch (error){
     res.status(500).json({ message: "Error interno del servidor" });
   }})

@@ -7,7 +7,6 @@ const router = Router();
 router.get("/", async (req, res) => {
   try{
     const products = await productsMongo.getProducts(req.query);
-  console.log(products);
   res.status(200).json({ products })}
   catch(error){
     res.status(500).json({message: error.message})

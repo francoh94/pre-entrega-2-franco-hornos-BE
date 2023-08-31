@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carts</title>
+</head>
+<body>
+  <h1>Carts</h1>
+  <div id="carts_container">
+    {{#each carts}}
+      <p>
+        Name: {{this}}
+      </p>
+    {{/each}}
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/cartIndex.js"></script>
+</body>
+</html>

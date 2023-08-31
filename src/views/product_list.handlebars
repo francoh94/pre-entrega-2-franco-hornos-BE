@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Productos</title>
+</head>
+<body>
+  <h1>Lista de Productos</h1>
+  <div id="divproductos">
+    {{#each products}}
+      <div>
+        <p>{{this}}</p>
+        <button class="agregar-btn" data-producto="{{this.name}}">Agregar al carrito</button>
+      </div>
+    {{/each}}
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>console.log({{products}});
+    const socketClient = io();
+
+    socketClient.on('todoslosproductos', productos => {
+      const todoslosproductos = productos.map(objproductos => {
+        return `
+          <div>
+            <p>${objproductos.name}</p>
+            <button class="agregar-btn" data-producto="${objproductos.name}">Agregar al carrito</button>
+          </div>
+        `;
+      }).join('');
+      divproductos.innerHTML = todoslosproductos;
+      const agregarBtns = document.querySelectorAll('.agregar-btn');
+      agregarBtns.forEach(btn => {
+        btn.addEventListener('click', e => {
+          const agregarAlCarrito = e.target.getAttribute('data-producto');
+          socketClient.emit('agregarAlCarrito', agregarAlCarrito);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
