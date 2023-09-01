@@ -29,7 +29,7 @@ router.get("/:cid", async (req, res) => {
  
   router.post('/',async(req,res )=>{
     try{
-    const createCart = await cartsMongo.createCart()
+    const createCart = await cartsMongo.createCart(req.body)
     res.status(200).json({message: 'Carts', cart:createCart})
   }
   catch (error){
@@ -39,7 +39,7 @@ router.get("/:cid", async (req, res) => {
   router.post('/:cid/products/:pid',async(req,res )=>{
     const {cid, pid} = req.params
     try{
-      const addProduct = await cartsMongo.addCart(mongoose.Types.ObjectId(cid), mongoose.Types.ObjectId(pid));
+      const addProduct = await cartsMongo.addCart(cid, pid);
       res.status(200).json({message: 'producto agregado', cart:addProduct})
  }
   catch (error){

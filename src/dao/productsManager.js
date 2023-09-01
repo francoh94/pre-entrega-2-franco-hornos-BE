@@ -4,7 +4,10 @@ import { productsModels } from "./models/products.model.js";
     
         async getProducts (obj) {
         const {limit, page} = obj
+        if (!limit)limit=10
+        if(!page)page=1
             try { 
+                
                 const products = await productsModels.paginate({},{page,limit});
                 const info = {
                 status:'success',
