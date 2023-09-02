@@ -58,7 +58,7 @@ router.put('/:pid',async(req, res) =>{
 router.delete('/:pid',async(req, res) =>{
   const {pid} = req.params
   try{
-  const productDelete = await productsMongo.deleteProduct(+pid)
+  const productDelete = await productsMongo.deleteProduct(pid)
   res.status(200).json({message:'Producto eliminado', productDelete})
   }
   catch (error){

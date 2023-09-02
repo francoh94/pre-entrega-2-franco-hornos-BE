@@ -58,7 +58,7 @@ router.get("/:cid", async (req, res) => {
     const {cid, pid} = req.params
     const obj = req.body.quantity
     try{
-    const updateQuantity= await cartsMongo.updateQuantity(+cid,+pid,obj)
+    const updateQuantity= await cartsMongo.updateQuantity(cid,pid,obj)
     res.status(200).json({message: 'cantidad modificada', cart:updateQuantity})}
   catch (error){
     res.status(500).json({ message: "Error interno del servidor" });
@@ -67,7 +67,7 @@ router.get("/:cid", async (req, res) => {
   router.delete('/:cid/products/:pid', async (req, res) => {
     const {cid, pid} = req.params
     try {
-        const removeFromCart = await cartsMongo.removeFromCart(+cid,+pid);
+        const removeFromCart = await cartsMongo.removeFromCart(cid,pid);
         if (!removeFromCart) {
             return res.status(404).json({ message: 'Carrito no encontrado' });
         }else{
@@ -79,7 +79,7 @@ router.get("/:cid", async (req, res) => {
   router.delete('/:cid', async (req, res) => {
     const {cid} = req.params
     try {
-        const deleteCart = await cartsMongo.deleteCart(+cid);
+        const deleteCart = await cartsMongo.deleteCart(cid);
         if (!deleteCart) {
             return res.status(404).json({ message: 'Carrito no encontrado' });
         }else{

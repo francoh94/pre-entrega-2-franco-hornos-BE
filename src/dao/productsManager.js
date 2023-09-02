@@ -3,7 +3,7 @@ import { productsModels } from "./models/products.model.js";
     class ProductsMongo {
     
         async getProducts (obj) {
-        const {limit, page} = obj
+        let {limit, page} = obj
         if (!limit)limit=10
         if(!page)page=1
             try { 

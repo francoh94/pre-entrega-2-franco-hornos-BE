@@ -1,5 +1,5 @@
 import { cartsModels } from "./models/carts.model.js";
-import mongoose from "mongoose";
+
 
 
 class CartsMongo {
@@ -14,7 +14,7 @@ class CartsMongo {
         }}
     async findById(id){
         try{
-            const cart = await cartsModels.findById(id).populate('products');
+            const cart = await cartsModels.findById(id).populate('Products.id');
             return cart
         }
         catch(error){
@@ -58,8 +58,8 @@ cart.Products.push(product);
     }
     async updateQuantity (cid,pid,obj){
         try{
-        const cart = await cartsModels.updateOne({ _id: cid, "products._id": pid },
-        { $set: { "products.$.quantity": obj } })
+        const cart = await cartsModels.updateOne({ _id: cid, "Products.id": pid },
+        { $set: { "Products.$.quantity": obj } })
         return cart
         }
         catch(error){
@@ -68,11 +68,11 @@ cart.Products.push(product);
     }
     async removeFromCart(cid,pid){
         try{
-        const cart = await cartsModels.getCarts(cid)
+        const cart = await cartsModels.findById(cid)
         if(!cart) throw new error('cart no encontrado')
         const updatedCart = await cartsModels.updateOne(
             { _id: cid },
-            { $pull: { products: { _id: pid } } }
+            { $pull: { Products: { _id: pid } } }
           );
         
         return updatedCart
@@ -83,8 +83,13 @@ cart.Products.push(product);
     }
     async deleteCart(cid){
         try{
-        const cart = await cartsModels.findByIdAndDelete(cid)
-        return cart
+        const cart = await cartsModels.findById(cid);
+        const emptyArray = cart.Products= [];
+        const updateCart = await cartsModels.updateOne(
+            {_id : cid},
+            {Products : emptyArray}
+        )
+        return updateCart
         }
         catch(error){
             return error
